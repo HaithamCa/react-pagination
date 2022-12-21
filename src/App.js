@@ -1,27 +1,30 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import './App.css';
+import './App.css'
+import Posts from './Components/Posts';
 
-function App() {
 
-  const [posts, setPosts] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [pageNumber, setPageNumber] = useState(1);
-  const [postsPerPage, setPostsPerPage] = useState(10);
+const App = () => {
 
-  useEffect(() => {
-    setIsLoading(true);
-    const fetchPosts = async () => {
-      const res = await axios.get('https://jsonplaceholder.typicode.com/posts');
-      setPosts(res.data);
-      setIsLoading(false);
-    }
-    fetchPosts();
-  }, [])
-  console.log(posts);
+const [posts, setPosts] = useState([]);
+const [loading, setLoading] = useState(false);
+const [currentPage, setCurrentPage] = useState(1);
+const [postsPerPage, setPostsPerPage] = useState(10);
+
+useEffect( () => {
+  const fetchPosts = async () => {
+  setLoading(true);
+  const res = await axios.get('https://jsonplaceholder.typicode.com/posts');
+  setPosts(res.data);
+  setLoading(false);
+  }
+  fetchPosts();
+}, []);
+
   return (
-    <div className="App">
-      
+    <div className="container mt-5">
+      <h1 className='text-primary mb-3'>My Blog</h1>
+      <Posts posts={posts} loading={loading} />
     </div>
   );
 }
